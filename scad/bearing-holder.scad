@@ -11,14 +11,14 @@
 //
 include <conf/config.scad>
 
-wall = 2.5;                            // wall thickness
-end_wall = 3.0;
-clearance = 0.2;                       // end clearance
-relief = 0.5;                          // clearance in the middle to stop the bearing rocking
-ziptie_clearance = 1;
+wall      = 2.5;    // wall thickness
+end_wall  = 3.0;
+clearance = 0.3;    // end clearance
+relief    = 1.0;   // clearance in the middle to stop the bearing rocking
 
+bearing_clearance = 0.5;
+ziptie_clearance  = 1.25;
 ziptie = small_ziptie;
-
 zipslot_width    = ziptie_width(ziptie) + ziptie_clearance;
 zipslot_tickness = ziptie_thickness(ziptie) + ziptie_clearance;
 
@@ -28,8 +28,8 @@ function bearing_holder_width(bearing) = bearing[1] + wall * 2;
 function bearing_ziptie_radius(bearing) = bearing[1] / 2 + wall + eta;
 
 module bearing_holder(bearing, bar_height, populate = false, rad = 0) {
-    bearing_length = bearing[0];
-    bearing_dia = bearing[1];
+    bearing_length = bearing[0] + bearing_clearance;
+    bearing_dia    = bearing[1] + bearing_clearance;
     below = 5 * bearing_dia / 15;
     height = bar_height + bearing_dia/2 - below;
     offset = below + height / 2 - bearing_dia / 2;

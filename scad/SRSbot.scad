@@ -9,7 +9,7 @@ bearing_dia     = bearing[1];
 stepper         = NEMA17;
 x_pitch         = 50.0;
 y_pitch         = 70.0;
-belt_gap        = 12.0;
+belt_gap        = 13.5;
 belt_width      = 6.0;
 belt_clearance  = 2.0;
 
@@ -37,8 +37,6 @@ mount_bolt      = 4.0;
 
 idler_top       = full_depth - idler_thickness / 2;
 idler_offset    = belt_gap / 2 + idler_diameter / 2;
-
-belt_guide_height = full_depth - belt_width /2 - belt_clearance /2;
 
 Ymount_height   = 65;
 rod_height      = Ymount_height - 17.5;
@@ -72,33 +70,47 @@ module idler(d, h, bolt) {
 }
 
 module plateTopPart() {
+    webThickness = 3;
     top_y_pitch = (bottom_depth - bearing_holder_length(bearing));
     
     translate([0, 0, plate_thickness/2 - bottom - bearing_dia/2])
-        cube([bottom_width, 
-              bottom_depth, 
-              plate_thickness], center = true);
-
+        difference() {
+            cube([bottom_width, 
+                  bottom_depth, 
+                  plate_thickness], center = true);
+            translate([-60,0,-plate_thickness]) 
+                cylinder(r=35,h=plate_thickness*2);
+            translate([ 60,0,-plate_thickness]) 
+                cylinder(r=35,h=plate_thickness*2);
+        };
     translate([ x_pitch/2,  top_y_pitch/2, -bearing_dia/2])
-        bearing_holder(bearing, bottom);
+        bearing_holder(bearing, bar_height=bottom, populate=false);
     translate([ x_pitch/2, -top_y_pitch/2, -bearing_dia/2])
-        bearing_holder(bearing, bottom);
+        bearing_holder(bearing, bar_height=bottom, populate=false);
     translate([-x_pitch/2,  top_y_pitch/2, -bearing_dia/2])
-        bearing_holder(bearing, bottom);
+        bearing_holder(bearing, bar_height=bottom, populate=false);
     translate([-x_pitch/2, -top_y_pitch/2, -bearing_dia/2])
-        bearing_holder(bearing, bottom);
+        bearing_holder(bearing, bar_height=bottom, populate=false);
    
     translate([-idler_offset, -idler_offset, -full_depth])
         idlerMountTop(d=mount_diameter, h=idler_top);
+    translate([-(idler_offset*1.2)/2  ,idler_offset,-full_depth])
+        cube([idler_offset*1.2, webThickness, idler_top]);
 
     translate([ idler_offset, -idler_offset, -full_depth])
         idlerMountTop(d=mount_diameter, h=idler_top);
-
+    translate([idler_offset, -(idler_offset*1.2)/2  ,-full_depth])
+        cube([webThickness, idler_offset*1.2, idler_top]);
+        
     translate([-idler_offset,  idler_offset, -full_depth])
         idlerMountTop(d=mount_diameter, h=idler_top);
-
+    translate([-idler_offset-webThickness, -(idler_offset*1.2)/2  ,-full_depth])
+        cube([webThickness,idler_offset*1.2,idler_top]);
+        
     translate([ idler_offset,  idler_offset, -full_depth])
         idlerMountTop(d=mount_diameter, h=idler_top);
+    translate([-(idler_offset*1.2)/2, -idler_offset-webThickness ,-full_depth])
+        cube([idler_offset*1.2,webThickness,idler_top]);
         
     x1 = bottom_width/2-width_extra;
     x2 = -bottom_width/2;
@@ -190,34 +202,49 @@ module X_rods() {
 }
 
 module plateBottomPart() {
+    webThickness = 3.0;
     bottom_x_pitch = (bottom_width - bearing_holder_length(bearing));
     
     translate([0, 0, plate_thickness/2 - bottom - bearing_dia/2])
-        cube([bottom_depth, 
-              bottom_width, 
-              plate_thickness], center = true);
-
+        difference() {
+            cube([bottom_depth, 
+                  bottom_width, 
+                  plate_thickness], center = true);
+            translate([0,-60,-plate_thickness]) 
+                cylinder(r=35,h=plate_thickness*2);
+            translate([0, 60,-plate_thickness]) 
+                cylinder(r=35,h=plate_thickness*2);
+        }
     translate([ y_pitch/2,  bottom_x_pitch/2, -bearing_dia/2])
-        bearing_holder(bearing, bottom);
+        bearing_holder(bearing, bottom, populate=false);
     translate([ y_pitch/2, -bottom_x_pitch/2, -bearing_dia/2])
-        bearing_holder(bearing, bottom);
+        bearing_holder(bearing, bottom, populate=false);
     translate([-y_pitch/2,  bottom_x_pitch/2, -bearing_dia/2])
-        bearing_holder(bearing, bottom);
+        bearing_holder(bearing, bottom, populate=false);
     translate([-y_pitch/2, -bottom_x_pitch/2, -bearing_dia/2])
-        bearing_holder(bearing, bottom);
+        bearing_holder(bearing, bottom, populate=false);
 
         
     translate([-idler_offset, -idler_offset, -full_depth])
         idlerMount(d=mount_diameter, h=idler_top);
+    translate([-(idler_offset*1.2)/2  ,-idler_offset-webThickness,-full_depth])
+        cube([idler_offset*1.2,webThickness,idler_top]);
 
     translate([ idler_offset, -idler_offset, -full_depth])
         idlerMount(d=mount_diameter, h=idler_top);
-
+    translate([idler_offset,-(idler_offset*1.2)/2,-full_depth])
+        cube([webThickness,(idler_offset*1.2),idler_top]);
+        
     translate([-idler_offset,  idler_offset, -full_depth])
         idlerMount(d=mount_diameter, h=idler_top);
+    translate([-(idler_offset*1.2)/2  ,idler_offset,-full_depth])
+        cube([idler_offset*1.2,webThickness,idler_top]);
 
     translate([ idler_offset,  idler_offset, -full_depth])
         idlerMount(d=mount_diameter, h=idler_top);
+    translate([-idler_offset-webThickness,-(idler_offset*1.2)/2,-full_depth])
+        cube([webThickness,(idler_offset*1.2),idler_top]);
+
 
     x1 = bottom_depth/2-width_extra;
     x2 = -bottom_depth/2;
@@ -487,7 +514,7 @@ module YMountBack() {
                 // left nut trap
                 translate([ x_pitch/2,Xrod_height-8.0, 4.5])
                     cube([6.0, 2.5,10.0],center=true);
-#                // right nut trap bolt hole
+                // right nut trap bolt hole
                 translate([-x_pitch/2,-1,5.0])
                     rotate([-90,0,0])
                         cylinder(d=3, h=Xrod_height);
@@ -499,8 +526,11 @@ module YMountBack() {
                 // idler bolt hole
                 translate([ 0,-1,5.0])
                     rotate([-90,0,0])
-                        cylinder(d=3, h=Xmount_height+2);
-
+                        cylinder(d=4, h=Xmount_height+2);
+                // idler bolt nut trap
+                translate([ 0,-1,5.0])
+                    rotate([-90,0,0])
+                        cylinder(d=8.8, h=3, $fn=6);
             }
         }
     }
@@ -595,14 +625,14 @@ module YMountFront() {
     }
 }
 
-//plateBottom();
-//idlers();
-//Y_rods();
+plateBottom();
+idlers();
+Y_rods();
 plateTop();
-//X_rods();
+X_rods();
 
-//translate([0,-150, 0]) rotate([0,0,90])  XMount();
-//translate([0, 150, 0]) rotate([0,0,-90]) XMount();
-//translate([200, 0, 0]) rotate([0,0,180]) YMountBack();
-//translate([-200, 0, 0]) rotate([0,0,0]) YMountFront();
+translate([ 0,-150, 0]) rotate([0,0,90])  XMount();
+translate([ 0, 150, 0]) rotate([0,0,-90]) XMount();
+translate([-200, 0, 0]) rotate([0,0,0])   YMountBack();
+translate([ 200, 0, 0]) rotate([0,0,180])  YMountFront();
 
