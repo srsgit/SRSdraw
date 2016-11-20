@@ -40,8 +40,8 @@ idler_offset    = belt_gap / 2 + idler_diameter / 2;
 
 belt_guide_height = full_depth - belt_width /2 - belt_clearance /2;
 
-Ymount_height   = 70;
-rod_height      = Ymount_height - 25;
+Ymount_height   = 65;
+rod_height      = Ymount_height - 17.5;
 
 Xmount_height   = 30;
 Xrod_height     = 20;
@@ -138,27 +138,38 @@ module plateTop() {
 
     color("Red",1) {
         rotate([0,180,90]) {
-            difference() {
-                plateTopPart();
-                // bolt holes in corners
-                translate([x,y,z])
-                    cylinder(d=4.0,h=full_depth+1);
-                translate([-x,y,z])
-                    cylinder(d=4.0,h=full_depth+1);
-                translate([x,-y,z])
-                    cylinder(d=4.0,h=full_depth+1);
-                translate([-x,-y,z])
-                    cylinder(d=4.0,h=full_depth+1);
-                // counter sinks for bolt heads
-                translate([x,y,z])
-                    cylinder(d=9.0,h=4);
-                translate([-x,y,z])
-                    cylinder(d=9.0,h=4);
-                translate([x,-y,z])
-                    cylinder(d=9.0,h=4);
-                translate([-x,-y,z])
-                    cylinder(d=9.0,h=4);
+            union() {
+                difference() {
+                    plateTopPart();
+                    // bolt holes in corners
+                    translate([x,y,z])
+                        cylinder(d=4.0,h=full_depth+1);
+                    translate([-x,y,z])
+                        cylinder(d=4.0,h=full_depth+1);
+                    translate([x,-y,z])
+                        cylinder(d=4.0,h=full_depth+1);
+                    translate([-x,-y,z])
+                        cylinder(d=4.0,h=full_depth+1);
+                    // counter sinks for bolt heads
+                    translate([x,y,z])
+                        cylinder(d=9.0,h=4);
+                    translate([-x,y,z])
+                        cylinder(d=9.0,h=4);
+                    translate([x,-y,z])
+                        cylinder(d=9.0,h=4);
+                    translate([-x,-y,z])
+                        cylinder(d=9.0,h=4);
 
+                };
+                    // add solid bridging layer for countersinks 
+                    translate([ x,y,z+4])
+                        cylinder(d=12.0,h=0.2);
+                    translate([-x,y,z+4])
+                        cylinder(d=12.0,h=0.2);
+                    translate([ x,-y,z+4])
+                        cylinder(d=12.0,h=0.2);
+                    translate([-x,-y,z+4])
+                        cylinder(d=12.0,h=0.2);
             }
         }
     }
@@ -241,44 +252,66 @@ module plateBottom() {
     z = -full_depth;
 
     color("Green",1) {
-        difference() {
-            plateBottomPart();
-            // bolt holes in corners
-            translate([x,y,z])
-                cylinder(d=4.0,h=full_depth+1);
-            translate([-x,y,z])
-                cylinder(d=4.0,h=full_depth+1);
-            translate([x,-y,z])
-                cylinder(d=4.0,h=full_depth+1);
-            translate([-x,-y,z])
-                cylinder(d=4.0,h=full_depth+1);
-            // nut traps for corners
-            translate([x,y,z])
-                cylinder(d=9.0,h=3,$fn=6);
-            translate([-x,y,z])
-                cylinder(d=9.0,h=3,$fn=6);
-            translate([x,-y,z])
-                cylinder(d=9.0,h=3,$fn=6);
-            translate([-x,-y,z])
-                cylinder(d=9.0,h=3,$fn=6);
-            // holes for idler bolts
-            translate([ idler_offset, idler_offset,z])
-                cylinder(d=mount_bolt,h=full_depth);
-            translate([ idler_offset,-idler_offset,z])
-                cylinder(d=mount_bolt,h=full_depth);
-            translate([-idler_offset, idler_offset,z])
-                cylinder(d=mount_bolt,h=full_depth);
-            translate([-idler_offset,-idler_offset,z])
-                cylinder(d=mount_bolt,h=full_depth);
-            // nut traps for idlers
-            translate([ idler_offset, idler_offset,z])
-                cylinder(d=9.0,h=3,$fn=6);
-            translate([ idler_offset,-idler_offset,z])
-                cylinder(d=9.0,h=3,$fn=6);
-            translate([-idler_offset, idler_offset,z])
-                cylinder(d=9.0,h=3,$fn=6);
-            translate([-idler_offset,-idler_offset,z])
-                cylinder(d=9.0,h=3,$fn=6);
+        union() {
+            difference() {
+                plateBottomPart();
+                // bolt holes in corners
+                translate([x,y,z])
+                    cylinder(d=4.0,h=full_depth+1);
+                translate([-x,y,z])
+                    cylinder(d=4.0,h=full_depth+1);
+                translate([x,-y,z])
+                    cylinder(d=4.0,h=full_depth+1);
+                translate([-x,-y,z])
+                    cylinder(d=4.0,h=full_depth+1);
+                // nut traps for corners
+                translate([x,y,z])
+                    cylinder(d=9.0,h=3,$fn=6);
+                translate([-x,y,z])
+                    cylinder(d=9.0,h=3,$fn=6);
+                translate([x,-y,z])
+                    cylinder(d=9.0,h=3,$fn=6);
+                translate([-x,-y,z])
+                    cylinder(d=9.0,h=3,$fn=6);
+                // holes for idler bolts
+                translate([ idler_offset, idler_offset,z])
+                    cylinder(d=mount_bolt,h=full_depth);
+                translate([ idler_offset,-idler_offset,z])
+                    cylinder(d=mount_bolt,h=full_depth);
+                translate([-idler_offset, idler_offset,z])
+                    cylinder(d=mount_bolt,h=full_depth);
+                translate([-idler_offset,-idler_offset,z])
+                    cylinder(d=mount_bolt,h=full_depth);
+                // nut traps for idlers
+                translate([ idler_offset, idler_offset,z])
+                    cylinder(d=9.0,h=3,$fn=6);
+                translate([ idler_offset,-idler_offset,z])
+                    cylinder(d=9.0,h=3,$fn=6);
+                translate([-idler_offset, idler_offset,z])
+                    cylinder(d=9.0,h=3,$fn=6);
+                translate([-idler_offset,-idler_offset,z])
+                    cylinder(d=9.0,h=3,$fn=6);
+            }
+            // add solid bridging layer for corner nut traps
+            translate([ x,y,z+3])
+                cylinder(d=12.0,h=0.2);
+            translate([-x,y,z+3])
+                cylinder(d=12.0,h=0.2);
+            translate([ x,-y,z+3])
+                cylinder(d=12.0,h=0.2);
+            translate([-x,-y,z+3])
+                cylinder(d=12.0,h=0.2);
+
+            // add solid bridging layer for idler nut traps
+            translate([ idler_offset, idler_offset,z+3])
+                cylinder(d=12.0,h=0.2);
+            translate([ idler_offset,-idler_offset,z+3])
+                cylinder(d=12.0,h=0.2);
+            translate([-idler_offset, idler_offset,z+3])
+                cylinder(d=12.0,h=0.2);
+            translate([-idler_offset,-idler_offset,z+3])
+                cylinder(d=12.0,h=0.2);
+            
         }
     }
 }
@@ -341,7 +374,7 @@ module filletCut(r,h) {
         }
 }
 
-module YMount() {
+module XMount() {
 
     length = ceil(NEMA_width(NEMA17));
 
@@ -417,7 +450,7 @@ module YMount() {
     };
 }
 
-module XMountL() {
+module YMountBack() {
     // main body
     translate([0,0,-Xrod_height+7.5]) {
         rotate([90,0,90]) {
@@ -473,69 +506,103 @@ module XMountL() {
     }
 }
 
-module XMountR() {
+module YMountFront() {
     // main body
     translate([0,0,-Xrod_height+7.5]) {
         rotate([90,0,90]) {
-            difference() {
-                translate([0,Xmount_height/2,10.0/2])
-                    cube([x_pitch+15, 
-                          Xmount_height, 
-                          10.0], center=true);
-                // rods
-                translate([-x_pitch/2,Xrod_height,-0.5])
-                    cylinder(d=8.0,h=11.0);
-                translate([ x_pitch/2,Xrod_height,-0.5])
-                    cylinder(d=8.0,h=11.0);
+            union() {
+                difference() {
+                    translate([0,Xmount_height/2,10.0/2])
+                        cube([x_pitch+15, 
+                              Xmount_height, 
+                              10.0], center=true);
+                    // rods
+                    translate([-x_pitch/2,Xrod_height,-0.5])
+                        cylinder(d=8.0,h=11.0);
+                    translate([ x_pitch/2,Xrod_height,-0.5])
+                        cylinder(d=8.0,h=11.0);
 
-                // cable cutout
-                translate([0,Xrod_height-7.5,5.0])
-                    cube([20,12,11.0], center=true);
-                
-                // top block rounded corners
-                translate([(x_pitch+15)/2,Xmount_height,-0.5]) 
-                    filletCut(r=6,h=11);
-                translate([-(x_pitch+15)/2,Xmount_height,-0.5]) 
-                    rotate ([0,0,90]) filletCut(r=6,h=11);
+                    // belt cutout
+                    translate([0,Xrod_height-2.5,5.0])
+                        cube([23,5,11.0], center=true);
+                    translate([-7,Xrod_height-7.5,5.0])
+                        cube([2.0,7.5,11.0], center=true);
+                    translate([ 7,Xrod_height-7.5,5.0])
+                        cube([2.0,7.5,11.0], center=true);
 
-                // bottom block rounded corners
-                translate([-(x_pitch+15)/2,0,-0.5]) 
-                    rotate ([0,0,180]) filletCut(r=6,h=11);
-                translate([ (x_pitch+15)/2,0,-0.5]) 
-                    rotate ([0,0,-90]) filletCut(r=6,h=11);
+                    translate([-8,Xrod_height-3.75,1]) 
+                        rotate ([0,90,-90]) filletCut(r=3,h=7.5);
+                    #translate([ 8,Xrod_height-3.75,1]) 
+                        rotate ([0,-0,180]) filletCut(r=3,h=7.5);
+                    
 
-                // right nut trap
-                translate([-x_pitch/2,Xrod_height-8.0, 4.5])
-                    cube([6.0, 2.5,10.0],center=true);
-                // left nut trap
-                translate([ x_pitch/2,Xrod_height-8.0, 4.5])
-                    cube([6.0, 2.5,10.0],center=true);
-#                // right nut trap bolt hole
-                translate([-x_pitch/2,-1,5.0])
-                    rotate([-90,0,0])
-                        cylinder(d=3, h=Xrod_height);
-                // left nut trap bolt hole
-                translate([ x_pitch/2,-1,5.0])
-                    rotate([-90,0,0])
-                        cylinder(d=3, h=Xrod_height);
+                    // belt slot left
+                    translate([x_pitch/2-5,Xrod_height-7.5,0])
+                        cube([x_pitch/2,7.5,3], center=true);
+                    // belt slot right
+                    translate([-x_pitch/2+5,Xrod_height-7.5,0])
+                        cube([x_pitch/2,7.5,3], center=true);
+                    
+                    // top block rounded corners
+                    translate([(x_pitch+15)/2,Xmount_height,-0.5]) 
+                        filletCut(r=6,h=11);
+                    translate([-(x_pitch+15)/2,Xmount_height,-0.5]) 
+                        rotate ([0,0,90]) filletCut(r=6,h=11);
 
-                // idler bolt hole
-                translate([ 0,-1,5.0])
-                    rotate([-90,0,0])
-                        cylinder(d=3, h=Xmount_height+2);
+                    // bottom block rounded corners
+                    translate([-(x_pitch+15)/2,0,-0.5]) 
+                        rotate ([0,0,180]) filletCut(r=6,h=11);
+                    translate([ (x_pitch+15)/2,0,-0.5]) 
+                        rotate ([0,0,-90]) filletCut(r=6,h=11);
 
+                    // right nut trap
+                    translate([-x_pitch/2,Xrod_height-14.0, 4.5])
+                        cube([6.0, 2.5,10.0],center=true);
+                    // left nut trap
+                    translate([ x_pitch/2,Xrod_height-14.0, 4.5])
+                        cube([6.0, 2.5,10.0],center=true);
+                    // right nut trap bolt hole
+                    translate([-x_pitch/2,-1,5.0])
+                        rotate([-90,0,0])
+                            cylinder(d=3, h=Xrod_height);
+                    // left nut trap bolt hole
+                    translate([ x_pitch/2,-1,5.0])
+                        rotate([-90,0,0])
+                            cylinder(d=3, h=Xrod_height);
+
+                    // bolt hole
+                    translate([0, Xrod_height+5,-1])
+                        cylinder(d=2.0,h=12);
+                    // nut traps for Y idler
+                    translate([0, Xrod_height+5,8])
+                        cylinder(d=6.0,h=4,$fn=6);
+
+                    // right nut trap bolt hole
+                    translate([-x_pitch/2,-1,5.0])
+                        rotate([-90,0,0])
+                            cylinder(d=3, h=Xrod_height);
+                    // left nut trap bolt hole
+                    translate([ x_pitch/2,-1,5.0])
+                        rotate([-90,0,0])
+                            cylinder(d=3, h=Xrod_height);
+
+                };
+                // bridging layer for nut traps for idler
+                translate([0, Xrod_height+5,8])
+                    cylinder(d=6.0,h=0.2);
             }
         }
     }
 }
 
-translate([0,-150, 0]) rotate([0,0,90])  YMount();
-translate([0, 150, 0]) rotate([0,0,-90]) YMount();
-translate([200, 0, 0]) rotate([0,0,180]) XMountL();
-translate([-200, 0, 0]) rotate([0,0,0]) XMountL();
-
-plateBottom();
-idlers();
-Y_rods();
+//plateBottom();
+//idlers();
+//Y_rods();
 plateTop();
-X_rods();
+//X_rods();
+
+//translate([0,-150, 0]) rotate([0,0,90])  XMount();
+//translate([0, 150, 0]) rotate([0,0,-90]) XMount();
+//translate([200, 0, 0]) rotate([0,0,180]) YMountBack();
+//translate([-200, 0, 0]) rotate([0,0,0]) YMountFront();
+
