@@ -1,7 +1,7 @@
 Drawing bot design
 
-based on drawbot on Thingiverse
+Based on DrawingBot on Thingiverse http://www.thingiverse.com/thing:1517211
 
-Re-worked to provide source in openscad
-Change y pitch to allow more room for idlers
-Chnage idler mounts to act as belt guides to avoid belt coming off idlers.
+Re-worked to provide source in openscad.
+Change Y pitch to allow more room for idlers.
+Change idler mounts to act as belt guides to avoid belt coming off idlers.
