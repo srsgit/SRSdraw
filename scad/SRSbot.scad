@@ -9,6 +9,9 @@ bearing_dia     = bearing[1];
 stepper         = NEMA17;
 x_pitch         = 50.0;
 y_pitch         = 70.0;
+z_pitch         = 35.0;
+
+
 belt_gap        = 13.5;
 belt_width      = 6.0;
 belt_clearance  = 2.0;
@@ -447,10 +450,10 @@ module XMount() {
 
                 // right nut trap
                 translate([-y_pitch/2,Ymount_height-15.0, 4.5])
-                    cube([6.0, 2.5,10.0],center=true);
+                    cube([6.2, 2.7,10.0],center=true);
                 // left nut trap
                 translate([ y_pitch/2,Ymount_height-15.0, 4.5])
-                    cube([6.0, 2.5,10.0],center=true);
+                    cube([6.2, 2.7,10.0],center=true);
                 // right nut trap bolt hole
                 translate([-y_pitch/2,35.0+1,5.0])
                     rotate([-90,0,0])
@@ -510,10 +513,10 @@ module YMountBack() {
 
                 // right nut trap
                 translate([-x_pitch/2,Xrod_height-8.0, 4.5])
-                    cube([6.0, 2.5,10.0],center=true);
+                    cube([6.2, 2.7,10.0],center=true);
                 // left nut trap
                 translate([ x_pitch/2,Xrod_height-8.0, 4.5])
-                    cube([6.0, 2.5,10.0],center=true);
+                    cube([6.2, 2.7,10.0],center=true);
                 // right nut trap bolt hole
                 translate([-x_pitch/2,-1,5.0])
                     rotate([-90,0,0])
@@ -538,12 +541,14 @@ module YMountBack() {
 
 module YMountFront() {
     // main body
+    
+    Xmount_width = x_pitch+25;
     translate([0,0,-Xrod_height+7.5]) {
         rotate([90,0,90]) {
             union() {
                 difference() {
                     translate([0,Xmount_height/2,10.0/2])
-                        cube([x_pitch+15, 
+                        cube([Xmount_width, 
                               Xmount_height, 
                               10.0], center=true);
                     // rods
@@ -553,8 +558,6 @@ module YMountFront() {
                         cylinder(d=8.0,h=11.0);
 
                     // belt cutout
-                    translate([0,Xrod_height-2.5,5.0])
-                        cube([23,5,11.0], center=true);
                     translate([-7,Xrod_height-7.5,5.0])
                         cube([2.0,7.5,11.0], center=true);
                     translate([ 7,Xrod_height-7.5,5.0])
@@ -562,35 +565,35 @@ module YMountFront() {
 
                     translate([-8,Xrod_height-3.75,1]) 
                         rotate ([0,90,-90]) filletCut(r=3,h=7.5);
-                    #translate([ 8,Xrod_height-3.75,1]) 
-                        rotate ([0,-0,180]) filletCut(r=3,h=7.5);
+                    translate([ 8,Xrod_height-3.75,1]) 
+                        rotate ([90,180,0]) filletCut(r=3,h=7.5);
                     
 
                     // belt slot left
-                    translate([x_pitch/2-5,Xrod_height-7.5,0])
-                        cube([x_pitch/2,7.5,3], center=true);
+                    translate([x_pitch/2,Xrod_height-7.5,0])
+                        cube([Xmount_width/2,6.5,2], center=true);
                     // belt slot right
-                    translate([-x_pitch/2+5,Xrod_height-7.5,0])
-                        cube([x_pitch/2,7.5,3], center=true);
+                    translate([-x_pitch/2,Xrod_height-7.5,0])
+                        cube([Xmount_width/2,6.5,2], center=true);
                     
                     // top block rounded corners
-                    translate([(x_pitch+15)/2,Xmount_height,-0.5]) 
+                    translate([Xmount_width/2,Xmount_height,-0.5]) 
                         filletCut(r=6,h=11);
-                    translate([-(x_pitch+15)/2,Xmount_height,-0.5]) 
+                    translate([-Xmount_width/2,Xmount_height,-0.5]) 
                         rotate ([0,0,90]) filletCut(r=6,h=11);
 
                     // bottom block rounded corners
-                    translate([-(x_pitch+15)/2,0,-0.5]) 
+                    translate([-Xmount_width/2,0,-0.5]) 
                         rotate ([0,0,180]) filletCut(r=6,h=11);
-                    translate([ (x_pitch+15)/2,0,-0.5]) 
+                    translate([ Xmount_width/2,0,-0.5]) 
                         rotate ([0,0,-90]) filletCut(r=6,h=11);
 
                     // right nut trap
                     translate([-x_pitch/2,Xrod_height-14.0, 4.5])
-                        cube([6.0, 2.5,10.0],center=true);
+                        cube([6.2, 2.7,10.0],center=true);
                     // left nut trap
                     translate([ x_pitch/2,Xrod_height-14.0, 4.5])
-                        cube([6.0, 2.5,10.0],center=true);
+                        cube([6.2, 2.7,10.0],center=true);
                     // right nut trap bolt hole
                     translate([-x_pitch/2,-1,5.0])
                         rotate([-90,0,0])
@@ -600,30 +603,272 @@ module YMountFront() {
                         rotate([-90,0,0])
                             cylinder(d=3, h=Xrod_height);
 
-                    // bolt hole
+                    // right rod nut trap bolt hole
+                    translate([-x_pitch/2,-1,5.0])
+                        rotate([-90,0,0])
+                            cylinder(d=3, h=Xrod_height);
+                    // left rod nut trap bolt hole
+                    translate([ x_pitch/2,-1,5.0])
+                        rotate([-90,0,0])
+                            cylinder(d=3, h=Xrod_height);
+
+                    // bolt hole top centre
                     translate([0, Xrod_height+5,-1])
-                        cylinder(d=2.0,h=12);
-                    // nut traps for Y idler
+                        cylinder(d=3.0,h=12);
+                    // nut trap
                     translate([0, Xrod_height+5,8])
                         cylinder(d=6.0,h=4,$fn=6);
 
-                    // right nut trap bolt hole
-                    translate([-x_pitch/2,-1,5.0])
-                        rotate([-90,0,0])
-                            cylinder(d=3, h=Xrod_height);
-                    // left nut trap bolt hole
-                    translate([ x_pitch/2,-1,5.0])
-                        rotate([-90,0,0])
-                            cylinder(d=3, h=Xrod_height);
-
+                    // bolt hole bottom right
+                    translate([-Xmount_width/2+5,5,-1])
+                        cylinder(d=3.0,h=12);
+                    // nut trap
+                    translate([-Xmount_width/2+5,5,8])
+                        cylinder(d=6.0,h=4,$fn=6);
+                    // bolt hole bottom left
+                    translate([ Xmount_width/2-5,5,-1])
+                        cylinder(d=3.0,h=12);
+                    // nut trap
+                    translate([ Xmount_width/2-5,5,8])
+                        cylinder(d=6.0,h=4,$fn=6);
                 };
-                // bridging layer for nut traps for idler
+                // bridging layer for top centre nut trap
                 translate([0, Xrod_height+5,8])
+                    cylinder(d=6.0,h=0.2);
+                // bridging layer for bottom right nut trap
+                translate([-Xmount_width/2+5,5,8])
+                    cylinder(d=6.0,h=0.2);
+                // bridging layer for bottom right nut trap
+                translate([Xmount_width/2-5,5,8])
                     cylinder(d=6.0,h=0.2);
             }
         }
     }
 }
+
+module ZMountFixed() {
+    // main body
+    
+    Xmount_width = x_pitch+25;
+    thickness = 8;
+    color("Green",1) {
+        translate([0,0,-Xrod_height+7.5]) {
+            rotate([90,0,90]) {
+                union() {
+                    difference() {
+                        translate([0,Xmount_height/2,6.0/2])
+                            cube([Xmount_width, 
+                                  Xmount_height, 
+                                  6.0], center=true);
+                        // top block rounded corners
+                        translate([Xmount_width/2,Xmount_height,-0.5]) 
+                            filletCut(r=6,h=11);
+                        translate([-Xmount_width/2,Xmount_height,-0.5]) 
+                            rotate ([0,0,90]) filletCut(r=6,h=11);
+
+                        // bottom block rounded corners
+                        translate([-Xmount_width/2,0,-0.5]) 
+                            rotate ([0,0,180]) filletCut(r=6,h=11);
+                        translate([ Xmount_width/2,0,-0.5]) 
+                            rotate ([0,0,-90]) filletCut(r=6,h=11);
+
+
+                        // bolt hole top centre
+                        translate([0, Xrod_height+5,-1])
+                            cylinder(d=3.0,h=12);
+                        // bolt hole bottom right
+                        translate([-Xmount_width/2+5,5,-1])
+                            cylinder(d=3.0,h=12);
+                        // bolt hole bottom left
+                        translate([ Xmount_width/2-5,5,-1])
+                            cylinder(d=3.0,h=12);
+                    };
+                    // left rod slide
+                    translate([z_pitch/2,Xmount_height/2,-4]) {
+                        difference() {
+                            cube([6,Xmount_height,10],center=true);
+                            translate([0,(Xmount_height+2)/2,-2])
+                                rotate([90,0,0])
+                                    cylinder(d=3.0,h=Xmount_height + 2);
+                        }
+                    }
+                    // right rod slide
+                    translate([-z_pitch/2,Xmount_height/2,-4]) {
+                        difference() {
+                            cube([6,Xmount_height,10],center=true);
+                            translate([0,(Xmount_height+2)/2,-2])
+                                rotate([90,0,0])
+                                    cylinder(d=3.0,h=Xmount_height + 2);
+                        }
+                    }
+                    // servo mount
+                    translate([0,38,4.5]) {
+                        difference() {
+                            cube([40,
+                                  18, 
+                                  3], center=true);
+                            cube([23.5,
+                                  12.5, 
+                                  5], center=true);
+                            // screw hole
+                            translate([-14, 0, -3])
+                                cylinder(d=2.0,h=12);
+                            // screw hole
+                            translate([ 14, 0, -3])
+                                cylinder(d=2.0,h=12);
+                           // rounded corners
+                            translate([20,9,-4]) 
+                                rotate ([0,0,0]) filletCut(r=6,h=11);
+                            translate([-20,9,-4]) 
+                                rotate ([0,0,90]) filletCut(r=6,h=11);
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+module ZMountMoving() {
+    // main body
+    
+    Xmount_width = z_pitch+6;
+    thickness = 8;
+    color("Brown",1) {
+        translate([0,0,-Xrod_height+7.5]) {
+            rotate([90,0,90]) {
+                union() {
+                    // main back
+                    difference() {
+                        translate([0,17,-10])
+                            cube([Xmount_width, 
+                                  62, 
+                                  6.0], center=true);
+                        translate([10,26.5,-15]) cylinder(d=4,h=15);
+                        translate([10,26.5,-10]) cylinder(d=9,h=3,$fn=6);
+
+                    };
+                    // servo face
+                    translate([0,50,-4])
+                        cube([Xmount_width, 
+                              4, 
+                              18], center=true);
+
+                    // left rod slide1
+                    translate([z_pitch/2,-9,-4]) {
+                        difference() {
+                            cube([6,10,10],center=true);
+                            translate([0,12,2])
+                                rotate([90,0,0])
+                                    cylinder(d=3.0,h=24);
+                        }
+                    }
+                    // left rod slide2
+                    translate([z_pitch/2,43,-4]) {
+                        difference() {
+                            cube([6,10,10],center=true);
+                            translate([0,12,2])
+                                rotate([90,0,0])
+                                    cylinder(d=3.0,h=24);
+                        }
+                    }
+                    // right rod slide1
+                    translate([-z_pitch/2,-9,-4]) {
+                        difference() {
+                            cube([6,10,10],center=true);
+                            translate([0,12,2])
+                                rotate([90,0,0])
+                                    cylinder(d=3.0,h=24);
+                        }
+                    }
+                    // right rod slide2
+                    translate([-z_pitch/2,43,-4]) {
+                        difference() {
+                            cube([6,10,10],center=true);
+                            translate([0,12,2])
+                                rotate([90,0,0])
+                                    cylinder(d=3.0,h=24);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+module PenHolder() {
+    
+    thickness = 3;
+    color("Pink",1) {
+        translate([0,0,4]) {
+            rotate([90,0,90]) {
+                difference() {
+                    union() {
+                        translate([10,10,-3]) cylinder(d=20,h=6);
+                        difference() {
+                            union() {
+                                // main back
+                                translate([0,-1,0])
+                                    cube([18, 
+                                          60, 
+                                          6], center=true);
+                                // top
+                                translate([0,27,-2])
+                                    cube([18, 
+                                          4, 
+                                          8], center=true);
+                                // bottom
+                                translate([0,-29,-2])
+                                    cube([18, 
+                                          4, 
+                                          8], center=true);
+                                // ring
+                                translate([0,-10,-9])
+                                    cube([18, 
+                                          8, 
+                                          22], center=true);
+                            };
+                            // groove in top
+                            translate([ 0, 20,-11]) 
+                                rotate ([-90,0,0]) cylinder(d=12.5, h=10);
+                            // groove in bottom
+                            translate([ 0,-35,-11]) 
+                                rotate ([-90,0,0]) cylinder(d=12.5, h=10);
+
+                            // hole in ring
+                            translate([ 0,-20,-11]) 
+                                rotate ([-90,0,0]) cylinder(d=12.5, h=20);
+                            // square hole in ring
+                            translate([ 0,-10,-6.625]) 
+                               rotate ([-90,0,0])
+                                    cube([12.5,7.25,15],center=true);
+
+                            // rounded corner on ring
+                            translate([-9,-20,-20]) 
+                                rotate ([-90,90,0]) filletCut(r=8,h=20);
+                            translate([ 9,-20,-20]) 
+                                rotate ([-90,0,0])  filletCut(r=8,h=20);
+
+
+                        }
+                        // bottom screw block
+                        translate([0,-10,-22])
+                            cube([10, 
+                                  8, 
+                                  6], center=true);
+                    }
+                    translate([ 0,-10,-30])
+                       rotate ([0,0,0]) cylinder(d=2,h=20);
+                    translate([10,10,-4]) cylinder(d=4,h=20);
+                }
+            }
+        }
+    }
+}
+
+
+
 
 plateBottom();
 idlers();
@@ -635,4 +880,7 @@ translate([ 0,-150, 0]) rotate([0,0,90])  XMount();
 translate([ 0, 150, 0]) rotate([0,0,-90]) XMount();
 translate([-200, 0, 0]) rotate([0,0,0])   YMountBack();
 translate([ 200, 0, 0]) rotate([0,0,180])  YMountFront();
+translate([ 210, 0, 0]) rotate([0,0,180])  ZMountFixed();
+translate([ 214, 0, 0]) rotate([0,0,180])  ZMountMoving();
+translate([ 230, 0, 0]) rotate([0,0,180])  PenHolder();
 
