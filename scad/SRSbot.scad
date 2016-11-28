@@ -686,7 +686,9 @@ module ZMountFixed() {
                     // left rod slide
                     translate([z_pitch/2,Xmount_height/2,-4]) {
                         difference() {
-                            cube([6,Xmount_height,10],center=true);
+                            cube([10,Xmount_height,10],center=true);
+                            cube([12,Xmount_height-8,10.5],
+                                     center=true);
                             translate([0,(Xmount_height+2)/2,-2])
                                 rotate([90,0,0])
                                     cylinder(d=3.0,h=Xmount_height + 2);
@@ -695,7 +697,9 @@ module ZMountFixed() {
                     // right rod slide
                     translate([-z_pitch/2,Xmount_height/2,-4]) {
                         difference() {
-                            cube([6,Xmount_height,10],center=true);
+                            cube([10,Xmount_height,10],center=true);
+                            cube([12,Xmount_height-8,10.5],
+                                     center=true);
                             translate([0,(Xmount_height+2)/2,-2])
                                 rotate([90,0,0])
                                     cylinder(d=3.0,h=Xmount_height + 2);
@@ -707,7 +711,7 @@ module ZMountFixed() {
                             cube([40,
                                   18, 
                                   3], center=true);
-                            cube([23.5,
+                            cube([23.0,
                                   12.5, 
                                   5], center=true);
                             // screw hole
