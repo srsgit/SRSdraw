@@ -449,17 +449,17 @@ module XMount() {
                     rotate ([0,0,-90]) filletCut(r=6,h=11);
 
                 // right nut trap
-                translate([-y_pitch/2,Ymount_height-15.0, 4.5])
+                translate([-y_pitch/2,Ymount_height-8.0, 4.5])
                     cube([6.2, 2.7,10.0],center=true);
                 // left nut trap
-                translate([ y_pitch/2,Ymount_height-15.0, 4.5])
+                translate([ y_pitch/2,Ymount_height-8.0, 4.5])
                     cube([6.2, 2.7,10.0],center=true);
                 // right nut trap bolt hole
-                translate([-y_pitch/2,35.0+1,5.0])
+                translate([-y_pitch/2,45.0+1,5.0])
                     rotate([-90,0,0])
                         cylinder(d=3, h=40);
                 // left nut trap bolt hole
-                translate([ y_pitch/2,35.0+1,5.0])
+                translate([ y_pitch/2,45.0+1,5.0])
                     rotate([-90,0,0])
                         cylinder(d=3, h=40);
             }
@@ -874,17 +874,17 @@ module PenHolder() {
 
 
 
-plateBottom();
-idlers();
-Y_rods();
-plateTop();
-X_rods();
+//plateBottom();
+//idlers();
+//Y_rods();
+//plateTop();
+//X_rods();
 
 translate([ 0,-150, 0]) rotate([0,0,90])  XMount();
-translate([ 0, 150, 0]) rotate([0,0,-90]) XMount();
-translate([-200, 0, 0]) rotate([0,0,0])   YMountBack();
-translate([ 200, 0, 0]) rotate([0,0,180])  YMountFront();
-translate([ 210, 0, 0]) rotate([0,0,180])  ZMountFixed();
-translate([ 214, 0, 0]) rotate([0,0,180])  ZMountMoving();
-translate([ 230, 0, 0]) rotate([0,0,180])  PenHolder();
+//translate([ 0, 150, 0]) rotate([0,0,-90]) XMount();
+//translate([-200, 0, 0]) rotate([0,0,0])   YMountBack();
+//translate([ 200, 0, 0]) rotate([0,0,180])  YMountFront();
+//translate([ 210, 0, 0]) rotate([0,0,180])  ZMountFixed();
+//translate([ 214, 0, 0]) rotate([0,0,180])  ZMountMoving();
+//translate([ 230, 0, 0]) rotate([0,0,180])  PenHolder();
 
