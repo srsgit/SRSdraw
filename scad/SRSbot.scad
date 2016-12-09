@@ -1,5 +1,6 @@
 include <conf/config.scad>
 use <bearing-holder.scad>
+use <StepMotor_28BYJ-48.scad>
 
 
 bearing         = LM8UU;
@@ -725,26 +726,32 @@ module ZMountFixed() {
                     // servo mount
                     translate([0,38,4.5]) {
                         difference() {
-                            cube([40,
-                                  18, 
+                            cube([50,
+                                  25, 
                                   3], center=true);
-                            cube([23.0,
-                                  12.5, 
-                                  5], center=true);
+//                            cube([23.0,
+//                                  12.5, 
+//                                  5], center=true);
+
+                            // shaft hole
+                            translate([0, -0.875, -3])
+                                cylinder(d=8.0,h=12);
+
                             // screw hole
-                            translate([-14, 0, -3])
+                            translate([-17.5, 7, -3])
                                 cylinder(d=2.0,h=12);
                             // screw hole
-                            translate([ 14, 0, -3])
+                            translate([ 17.5, 7, -3])
                                 cylinder(d=2.0,h=12);
-                           // rounded corners
-                            translate([20,9,-4]) 
+                            // rounded corners
+                            translate([25,12.5,-4]) 
                                 rotate ([0,0,0]) filletCut(r=6,h=11);
-                            translate([-20,9,-4]) 
+                            translate([-25,12.5,-4]) 
                                 rotate ([0,0,90]) filletCut(r=6,h=11);
 
                         }
                     }
+                    translate([0,45,15]) rotate([180,180,90]) StepMotor28BYJ();
                 }
             }
         }
@@ -891,17 +898,18 @@ module PenHolder() {
 
 
 
-plateBottom();
-idlers();
-Y_rods();
-plateTop();
-X_rods();
+//plateBottom();
+//idlers();
+//Y_rods();
+//plateTop();
+//X_rods();
 
-translate([ 0,-150, 0]) rotate([0,0,90])  XMount();
-translate([ 0, 150, 0]) rotate([0,0,-90]) XMount();
-translate([-200, 0, 0]) rotate([0,0,0])   YMountBack();
+//translate([ 0,-150, 0]) rotate([0,0,90])  XMount();
+//translate([ 0, 150, 0]) rotate([0,0,-90]) XMount();
+//translate([-200, 0, 0]) rotate([0,0,0])   YMountBack();
 translate([ 200, 0, 0]) rotate([0,0,180])  YMountFront();
 translate([ 210, 0, 0]) rotate([0,0,180])  ZMountFixed();
-translate([ 214, 0, 0]) rotate([0,0,180])  ZMountMoving();
-translate([ 230, 0, 0]) rotate([0,0,180])  PenHolder();
+//translate([ 214, 0, 0]) rotate([0,0,180])  ZMountMoving();
+//translate([ 230, 0, 0]) rotate([0,0,180])  PenHolder();
+
 
