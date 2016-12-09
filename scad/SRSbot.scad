@@ -427,26 +427,43 @@ module XMount() {
                     cube([20,12,11.0], center=true);
                 
                 // bottom cutout
-                translate([0,-195,-0.5])
-                    cylinder(r=200,h=11.0);
-                // left cutout
-                translate([-70,Ymount_height/2,-0.5])
-                    cylinder(r=20,h=11.0);
-                // left cutout
-                translate([70,Ymount_height/2,-0.5])
-                    cylinder(r=20,h=11.0);
+                translate([0,-153,-0.5])
+                    cylinder(r=160,h=11.0);
                 
-                // top block rounded corners
-                translate([60.0,Ymount_height,-0.5]) 
-                    filletCut(r=6,h=11);
-                translate([-60.0,Ymount_height,-0.5]) 
-                    rotate ([0,0,90]) filletCut(r=6,h=11);
-
+                // right cutout straight
+                translate([-65,Ymount_height/2,-0.5])
+                    cube([20,40,11.0]);
+                // right cutout curved
+                translate([-65,Ymount_height/2,-0.5])
+                    cylinder(r=20,h=11.0);
+                // top block rounded corner
+                translate([-45.0,Ymount_height,-0.5]) 
+                    rotate ([0,0,90]) 
+                        filletCut(r=8,h=11);   
+                // left cutout straight
+                translate([45,Ymount_height/2,-0.5])
+                    cube([20,40,11.0]);
+                // left cutout curved
+                translate([65,Ymount_height/2,-0.5])
+                    cylinder(r=20,h=11.0);
+                // top block rounded corner
+                translate([45.0,Ymount_height,-0.5]) 
+                    rotate ([0,0,0]) 
+                        filletCut(r=8,h=11);   
+                        
+                // circle cutout
+                translate([-25,25,-0.5])
+                    cylinder(d=18,h=11.0);
+                // circle cutout
+                translate([25,25,-0.5])
+                    cylinder(d=18,h=11.0);
+                    
+                    
                 // bottom block rounded corners
                 translate([-60.0,0,-0.5]) 
-                    rotate ([0,0,180]) filletCut(r=6,h=11);
+                    rotate ([0,0,180]) filletCut(r=3,h=11);
                 translate([ 60.0,0,-0.5]) 
-                    rotate ([0,0,-90]) filletCut(r=6,h=11);
+                    rotate ([0,0,-90]) filletCut(r=3,h=11);
 
                 // right nut trap
                 translate([-y_pitch/2,Ymount_height-8.0, 4.5])
@@ -754,10 +771,10 @@ module ZMountMoving() {
 
                     };
                     // servo face
-                    translate([0,50,-4])
+                    translate([0,50,-6])
                         cube([Xmount_width, 
                               4, 
-                              18], center=true);
+                              14], center=true);
 
                     // left rod slide1
                     translate([z_pitch/2,-9,-4]) {
@@ -874,17 +891,17 @@ module PenHolder() {
 
 
 
-//plateBottom();
-//idlers();
-//Y_rods();
-//plateTop();
-//X_rods();
+plateBottom();
+idlers();
+Y_rods();
+plateTop();
+X_rods();
 
 translate([ 0,-150, 0]) rotate([0,0,90])  XMount();
-//translate([ 0, 150, 0]) rotate([0,0,-90]) XMount();
-//translate([-200, 0, 0]) rotate([0,0,0])   YMountBack();
-//translate([ 200, 0, 0]) rotate([0,0,180])  YMountFront();
-//translate([ 210, 0, 0]) rotate([0,0,180])  ZMountFixed();
-//translate([ 214, 0, 0]) rotate([0,0,180])  ZMountMoving();
-//translate([ 230, 0, 0]) rotate([0,0,180])  PenHolder();
+translate([ 0, 150, 0]) rotate([0,0,-90]) XMount();
+translate([-200, 0, 0]) rotate([0,0,0])   YMountBack();
+translate([ 200, 0, 0]) rotate([0,0,180])  YMountFront();
+translate([ 210, 0, 0]) rotate([0,0,180])  ZMountFixed();
+translate([ 214, 0, 0]) rotate([0,0,180])  ZMountMoving();
+translate([ 230, 0, 0]) rotate([0,0,180])  PenHolder();
 
